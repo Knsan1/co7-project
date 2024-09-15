@@ -1,24 +1,13 @@
-resource "vault_jwt_auth_backend" "jwt" {
-  path = "jwt"
+resource "vault_jwt_auth_backend" "example" {
+    description         = "Demonstration of the Terraform JWT auth backend"
+    path                = "jwt"
+    oidc_discovery_url  = "https://app.terraform.io"
+    bound_issuer        = "https://app.terraform.io"
 }
-
-resource "vault_jwt_auth_backend_role" "example" {
-  backend         = vault_jwt_auth_backend.jwt.path
-  role_name       = "test-role"
-  token_policies  = ["default", "dev", "prod"]
-
-  bound_audiences = ["https://myco.test"]
-  bound_claims = {
-    color = "red,green,blue"
-  }
-  user_claim      = "https://vault/user"
-  role_type       = "jwt"
-}
-
 
 
 resource "vault_policy" "example" {
-  name = "dev-team"
+  name = "admin-policy"
 
   policy = <<EOT
 path "auth/*"
@@ -74,13 +63,13 @@ EOT
 }
 
 resource "vault_jwt_auth_backend_role" "admin_role" {
-  backend = vault_jwt_auth_backend.tfc_jwt.path
-  role_name = var.admin_role
-  token_policies = [vault_policy.tfc_dpc_aws_secret_policy.name]
-  bound_audiences = [var.tfc_vault_audience]
+  backend = vault_jwt_auth_backend.example.path
+  role_name = admin-role
+  token_policies = [vault_policy.example.name]
+  bound_audiences = ["vault.workload.identity"]
   bound_claims_type = "glob"
   bound_claims = {
-    sub = "organization:${var.tfc_organization_name}:project:${var.tfc_project_name}:workspace:${var.tfc_workspace_name}:run_phase:*"
+    sub = "organization:Hellocloud-kns:project:HCP Vault Project:workspace:*:run_phase:*"
   }
   user_claim = "terraform_full_workspace"
   role_type  = "jwt"
