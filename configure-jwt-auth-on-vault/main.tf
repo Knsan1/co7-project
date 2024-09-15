@@ -64,7 +64,7 @@ EOT
 
 resource "vault_jwt_auth_backend_role" "admin_role" {
   backend = vault_jwt_auth_backend.example.path
-  role_name = admin-role
+  role_name = "admin-role"
   token_policies = [vault_policy.example.name]
   bound_audiences = ["vault.workload.identity"]
   bound_claims_type = "glob"
