@@ -11,3 +11,7 @@ resource "hcp_vault_cluster" "vault_cluster" {
   tier       = "dev"
   public_endpoint = true
 }
+
+resource "hcp_vault_cluster_admin_token" "admin_token" {
+  cluster_id = hcp_vault_cluster.vault_cluster.cluster_id
+}
