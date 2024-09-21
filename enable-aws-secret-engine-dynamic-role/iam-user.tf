@@ -38,7 +38,7 @@ data "aws_iam_policy_document" "vault_admin" {
 }
 
 resource "aws_iam_user_policy" "vault_admin" {
-  name   = "test"
+  name   = "vault-policy"
   user   = aws_iam_user.vault_admin.name
   policy = data.aws_iam_policy_document.vault_admin.json
 }
