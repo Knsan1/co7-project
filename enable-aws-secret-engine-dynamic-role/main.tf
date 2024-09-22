@@ -9,7 +9,7 @@ resource "vault_aws_secret_backend" "aws" {
 
 resource "vault_aws_secret_backend_role" "role" {
   backend = vault_aws_secret_backend.aws.path
-  name    = "deploy"
+  name    = "master-adminaccess-role"
   credential_type = "iam_user"
   policy_arns = ["arn:aws:iam::aws:policy/IAMFullAccess"]
 
