@@ -1,12 +1,12 @@
 variable "workspace_name" {
   description = "Workspace Name"
   type = string
-  default = "create-vpc-day3"  ### have to change WorkSpace Name
+  default = "create-aws-vpc_Step04"  ### have to change WorkSpace Name
 }
 variable "org_name" {
   description = "Organization Name"
   type = string
-  default = "hellocloud-eem"   ### have to change ORG ID
+  default = "Hellocloud-kns"   ### have to change ORG ID
 }
 variable "vault_url" {
   description = "The address of the Vault instance runs will access."
