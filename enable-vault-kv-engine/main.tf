@@ -4,15 +4,15 @@ resource "vault_mount" "example" {
   options = { version = "2" }
 }
 resource "vault_kv_secret_v2" "example" {
-  mount = vault_mount.example.path
+  mount               = vault_mount.example.path
   name                = "unsecret"
   cas                 = 1
   delete_all_versions = true
   data_json = jsonencode(
     {
-      foo = "bar",
+      foo                         = "bar",
       dynamic_provider_credential = "true",
-      add_new_key_value = "add_new"
+      add_new_key_value           = "add_new"
     }
   )
 }

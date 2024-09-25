@@ -1,8 +1,8 @@
 resource "vault_jwt_auth_backend" "example" {
-    description         = "Demonstration of the Terraform JWT auth backend"
-    path                = "jwt"
-    oidc_discovery_url  = "https://app.terraform.io"
-    bound_issuer        = "https://app.terraform.io"
+  description        = "Demonstration of the Terraform JWT auth backend"
+  path               = "jwt"
+  oidc_discovery_url = "https://app.terraform.io"
+  bound_issuer       = "https://app.terraform.io"
 }
 
 
@@ -63,10 +63,10 @@ EOT
 }
 
 resource "vault_jwt_auth_backend_role" "admin_role" {
-  backend = vault_jwt_auth_backend.example.path
-  role_name = "admin-role"
-  token_policies = [vault_policy.example.name]
-  bound_audiences = ["vault.workload.identity"]
+  backend           = vault_jwt_auth_backend.example.path
+  role_name         = "admin-role"
+  token_policies    = [vault_policy.example.name]
+  bound_audiences   = ["vault.workload.identity"]
   bound_claims_type = "glob"
   bound_claims = {
     sub = "organization:Hellocloud-kns:project:HCP Vault Project:workspace:*:run_phase:*"

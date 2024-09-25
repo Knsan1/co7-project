@@ -6,9 +6,9 @@ resource "hcp_hvn" "vault_hvn" {
 }
 
 resource "hcp_vault_cluster" "vault_cluster" {
-  cluster_id = "co7-vault-cluster"
-  hvn_id     = hcp_hvn.vault_hvn.hvn_id
-  tier       = "dev"
+  cluster_id      = "co7-vault-cluster"
+  hvn_id          = hcp_hvn.vault_hvn.hvn_id
+  tier            = "dev"
   public_endpoint = true
 }
 
