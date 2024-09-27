@@ -15,9 +15,14 @@ resource "vault_aws_secret_backend_role" "role" {
 
 }
 
+resource "time_sleep" "wait_before_fetching_creds" {
+  depends_on      = [vault_aws_secret_backend_role.role]
+  create_duration = "10s"
+}
 
 # generally, these blocks would be in a different module
 data "vault_aws_access_credentials" "creds" {
+  depends_on = [time_sleep.wait_before_fetching_creds]
   backend = vault_aws_secret_backend.aws.path
   role    = vault_aws_secret_backend_role.role.name
 }
