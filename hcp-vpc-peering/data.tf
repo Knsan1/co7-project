@@ -30,7 +30,7 @@ data "aws_subnets" "private" {
   }
 
   tags = {
-    Name = "private"
+    Name = "private*"
   }
 }
 
@@ -47,7 +47,7 @@ data "aws_subnets" "db" {
   }
 
   tags = {
-    Name = "db"
+    Name = "db*"
   }
 }
 
