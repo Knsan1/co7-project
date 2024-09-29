@@ -46,3 +46,8 @@ resource "aws_iam_role" "ec2_role" {
   name               = "AWS_EC2_role"
   assume_role_policy = data.aws_iam_policy_document.assume_role.json
 }
+
+resource "aws_iam_instance_profile" "vault-client" {
+  name = "vault-client-instance-profile"
+  role = aws_iam_role.ec2_role.id
+}
