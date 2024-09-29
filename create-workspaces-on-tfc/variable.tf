@@ -9,7 +9,7 @@ variable "organization_name" {
 variable "project_name" {
   description = "Name of the Terraform Cloud project"
   type        = string
-  default     = "HCP-Vault-Project"
+  default     = "HCP Vault Project"
 }
 
 # GitHub Repository Name
