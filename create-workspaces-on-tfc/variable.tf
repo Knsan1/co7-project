@@ -44,3 +44,8 @@ variable "tag_names" {
   default     = ["kns-hc", "test"] # Default to an empty list
 }
 
+variable "git_vcs_name" {
+  description = "Existing Github VCS Provider Name"
+  type        = string
+  default     = "Git Terraform"
+}

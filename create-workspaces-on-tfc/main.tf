@@ -16,6 +16,7 @@ data "tfe_project" "my_project" {
 data "tfe_oauth_client" "github" {
   organization     = data.tfe_organization.my_org.name
   service_provider = "github"
+  name             = var.git_vcs_name
 }
 
 ####Manual Connect between TFC and Github
