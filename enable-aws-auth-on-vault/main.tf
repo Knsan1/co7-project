@@ -39,6 +39,7 @@ EOT
 }
 
 resource "vault_aws_auth_backend_role" "aws" {
+  depends_on               = [aws_iam_role.ec2_role]
   backend                  = vault_auth_backend.aws.path
   role                     = "db-role"
   auth_type                = "iam"
