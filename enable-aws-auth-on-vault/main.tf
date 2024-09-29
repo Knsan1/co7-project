@@ -39,7 +39,7 @@ EOT
 }
 
 resource "time_sleep" "wait_before_creating_role" {
-  depends_on      = [vault_aws_secret_backend_role.vpc_role]
+  depends_on      = [aws_iam_role.ec2_role]
   create_duration = "20s"
 }
 
