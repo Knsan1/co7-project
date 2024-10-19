@@ -15,7 +15,7 @@ EOT
 resource "vault_approle_auth_backend_role" "aws_approle" {
   backend        = vault_auth_backend.approle.path
   role_name      = "aws-approle"
-  token_policies = [vault_policy.aws_approle_policy]
+  token_policies = [vault_policy.aws_approle_policy.name]
   token_ttl      = 300
   token_max_ttl  = 600
 }

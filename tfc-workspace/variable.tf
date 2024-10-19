@@ -1,7 +1,7 @@
 variable "workspace_name" {
   description = "Workspace Name"
   type        = string
-  default     = "enable_aws_auth_on_vault_Step06" ### have to change WorkSpace Name
+  default     = "enable_approle_auth_method_Step07" ### have to change WorkSpace Name
 }
 variable "org_name" {
   description = "Organization Name"
@@ -11,7 +11,7 @@ variable "org_name" {
 variable "vault_url" {
   description = "The address of the Vault instance runs will access."
   type        = string
-  default     = "https://co7-vault-cluster-public-vault-bd7ad5ca.18fda847.z1.hashicorp.cloud:8200" ### have to change new vault cluster id
+  default     = "https://co7-vault-cluster-public-vault-236a60f2.10c97af7.z1.hashicorp.cloud:8200" ### have to change new vault cluster id
 }
 variable "run_role" {
   description = "TFC_VAULT_RUN_ROLE"
