@@ -128,10 +128,10 @@ resource "aws_instance" "app_approle" {
   key_name        = "ssh-key-${random_pet.env.id}"
   subnet_id       = data.aws_subnets.private.ids[1]
   security_groups = [aws_security_group.allow_ssh_app.id]
-  user_data       = data.template_file.vault_agent_aws.rendered
+  user_data       = data.template_file.vault_agent_approle.rendered
 
   tags = {
-    Name = "App Server"
+    Name = "Approle Server"
   }
   lifecycle {
     ignore_changes = [
