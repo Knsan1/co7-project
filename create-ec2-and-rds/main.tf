@@ -82,9 +82,9 @@ data "template_file" "vault_agent_aws" {
   template = file("${path.module}/template/ec2-aws-auth.tftpl")
   vars = {
     tpl_vault_server_addr = data.terraform_remote_state.vault_cluster.outputs.vault_private_endpoint_url
-    MYSQL_HOST            = aws_db_instance.default.address
-    MYSQL_USER            = aws_db_instance.default.username
-    MYSQL_PASS            = aws_db_instance.default.password
+    MYSQL_HOST            = aws_db_instance.project_rds.address
+    MYSQL_USER            = aws_db_instance.project_rds.username
+    MYSQL_PASS            = aws_db_instance.project_rds.password
   }
 }
 
@@ -180,7 +180,7 @@ resource "aws_vpc_security_group_egress_rule" "allow_db_app" {
 }
 
 ##Create RDS 
-resource "aws_db_instance" "default" {
+resource "aws_db_instance" "project_rds" {
   allocated_storage      = 10
   db_name                = "projectdb"
   engine                 = "mysql"
@@ -189,7 +189,7 @@ resource "aws_db_instance" "default" {
   identifier             = "db-instance"
   instance_class         = "db.t3.micro"
   username               = "admin"
-  password               = "admin"
+  password               = "Admin1234"
   skip_final_snapshot    = true
   vpc_security_group_ids = [aws_security_group.allow_db.id]
 }
