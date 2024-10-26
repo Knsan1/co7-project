@@ -82,9 +82,9 @@ data "template_file" "vault_agent_aws" {
   template = file("${path.module}/template/ec2-aws-auth.tftpl")
   vars = {
     tpl_vault_server_addr = data.terraform_remote_state.vault_cluster.outputs.vault_private_endpoint_url
-    MYSQL_HOST            = aws_db_instance.project_rds.address
-    MYSQL_USER            = aws_db_instance.project_rds.username
-    MYSQL_PASS            = aws_db_instance.project_rds.password
+    MYSQL_HOST            = aws_db_instance.default.address
+    MYSQL_USER            = aws_db_instance.default.username
+    MYSQL_PASS            = aws_db_instance.default.password
   }
 }
 
@@ -139,4 +139,57 @@ resource "aws_instance" "app_approle" {
       tags,
     ]
   }
+}
+
+//---------------------------------------------------------
+//## Create RDS instance
+//---------------------------------------------------------
+## Create Security Group
+resource "aws_security_group" "allow_db" {
+  name        = "allow_db"
+  description = "Allow db inbound traffic and all outbound traffic"
+  vpc_id      = data.terraform_remote_state.vpc.outputs.vpc_id
+
+  tags = {
+    Name = "allow_db"
+  }
+}
+
+resource "aws_vpc_security_group_ingress_rule" "allow_db_app" {
+  for_each          = data.aws_subnet.private
+  security_group_id = aws_security_group.allow_db.id
+  cidr_ipv4         = each.value.cidr_block #aws_instance.jump.private_ip
+  from_port         = 3306
+  ip_protocol       = "tcp"
+  to_port           = 3306
+}
+
+resource "aws_vpc_security_group_ingress_rule" "allow_db_vault" {
+  security_group_id = aws_security_group.allow_db.id
+  cidr_ipv4         = data.terraform_remote_state.vault_cluster.outputs.hvn_cidr
+  from_port         = 3306
+  ip_protocol       = "tcp"
+  to_port           = 3306
+}
+
+
+resource "aws_vpc_security_group_egress_rule" "allow_db_app" {
+  security_group_id = aws_security_group.allow_db.id
+  cidr_ipv4         = "0.0.0.0/0"
+  ip_protocol       = "-1" # semantically equivalent to all ports
+}
+
+##Create RDS 
+resource "aws_db_instance" "default" {
+  allocated_storage      = 10
+  db_name                = "projectdb"
+  engine                 = "mysql"
+  engine_version         = "8.0"
+  db_subnet_group_name   = "db-group"
+  identifier             = "db-instance"
+  instance_class         = "db.t3.micro"
+  username               = "admin"
+  password               = "admin"
+  skip_final_snapshot    = true
+  vpc_security_group_ids = [aws_security_group.allow_db.id]
 }

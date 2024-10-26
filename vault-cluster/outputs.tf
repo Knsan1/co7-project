@@ -34,3 +34,8 @@ output "vault_admin_token" {
   value       = hcp_vault_cluster_admin_token.admin_token.token
   sensitive   = true
 }
+
+output "hvn_cidr" {
+  description = "HCP HVN CIDR"
+  value       = hcp_hvn.vault_hvn.cidr_block
+}
